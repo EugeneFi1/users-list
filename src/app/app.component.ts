@@ -9,7 +9,7 @@ import {
   allUsersSelector,
   selectedUserSelector,
   selectUsersState,
-} from './store/users/users.selector';
+} from './store/users/users.selectors';
 
 @Component({
   selector: 'app-root',

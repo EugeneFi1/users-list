@@ -1,12 +1,7 @@
 <div class="users-table">
   <mat-form-field class="users-table__filter">
-    <mat-label>Filter</mat-label>
-    <input
-      matInput
-      (keyup)="_applyFilter($event)"
-      placeholder="Ex. ium"
-      #input
-    />
+    <mat-label>Search</mat-label>
+    <input matInput (keyup)="_applyFilter($event)" #input />
   </mat-form-field>
 
   <table mat-table [dataSource]="_dataSource">

@@ -6,7 +6,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { Store } from '@ngrx/store';
 import { User } from '../../models/user.model';
-import { allUsersSelector } from '../../store/users/users.selector';
+import { allUsersSelector } from '../../store/users/users.selectors';
 import { USERS_ACTIONS } from '../../store/users/users.actions';
 import { DISPLAYED_COLUMNS } from '../../models/users-table.model';
 
