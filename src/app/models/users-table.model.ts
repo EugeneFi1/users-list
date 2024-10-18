@@ -4,4 +4,5 @@ export const DISPLAYED_COLUMNS = [
   'email',
   'phone',
   'website',
+  'operations',
 ];

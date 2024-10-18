@@ -29,7 +29,7 @@ export class UsersRestApiService {
   }
 
   public removeUser(userId: string): Observable<void> {
-    const path = buildPath(USERS_ROUTES.USER_POSTS, { userId });
+    const path = buildPath(USERS_ROUTES.USER, { userId });
     return this.httpClient.delete<void>(path);
   }
 
