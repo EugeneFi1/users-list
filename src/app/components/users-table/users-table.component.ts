@@ -20,7 +20,7 @@ import { DISPLAYED_COLUMNS } from '../../models/users-table.model';
 export class UsersTableComponent implements OnInit {
   public _displayedColumns: string[] = DISPLAYED_COLUMNS;
   public _dataSource = new MatTableDataSource();
-  public _selectedUserId?: number;
+  public _selectedUserId?: string;
   private destroyRef = inject(DestroyRef);
 
   constructor(private store: Store) {}
