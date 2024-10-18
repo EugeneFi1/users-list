@@ -40,7 +40,7 @@ export class UsersTableComponent implements OnInit {
   }
 
   public _selectUser(user: User): void {
-    // window.open();
+    window.open("users/" + user.id);
     this._selectedUserId = user.id;
     this.store.dispatch(USERS_ACTIONS.selectUser({ user }));
   }

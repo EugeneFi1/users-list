@@ -5,7 +5,6 @@ export interface UsersState {
   isLoading: boolean;
   users: User[];
   selectedUser?: User;
-  userPosts?: Post[];
 }
 
 export const usersInitialState: UsersState = {
