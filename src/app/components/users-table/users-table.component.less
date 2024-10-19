@@ -1,12 +1,29 @@
 .users-table {
-  &__filter {
-    width: 100%;
+  &__header {
+    --mdc-extended-fab-container-elevation-shadow: none;
+    --mdc-extended-fab-focus-container-elevation-shadow: none;
+    --mdc-extended-fab-hover-container-elevation-shadow: none;
     position: sticky;
+    background-color: white;
+    display: flex;
+    gap: 20px;
     z-index: 1000;
     top: 0;
+    padding-top: 5px;
+
+    &_filter {
+      width: 100%;
+    }
   }
 
-  .mat-mdc-row:hover, .selected-table-row {
+  &__table {
+    &_operations {
+      display: flex;
+      justify-content: center;
+    }
+  }
+
+  .mat-mdc-row:hover {
     --mat-table-row-item-label-text-color: #005cbb;
     --mat-table-row-item-outline-color: #005cbb;
     --mat-table-row-item-outline-width: 1.5px;

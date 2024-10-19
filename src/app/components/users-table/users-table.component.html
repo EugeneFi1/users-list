@@ -1,10 +1,16 @@
 <div class="users-table">
-  <mat-form-field class="users-table__filter">
-    <mat-label>Search</mat-label>
-    <input matInput (keyup)="_applyFilter($event)" #input />
-  </mat-form-field>
+  <div class="users-table__header">
+    <mat-form-field class="users-table__header_filter" appearance="outline">
+      <mat-label>Search</mat-label>
+      <input matInput (keyup)="_applyFilter($event)" #input />
+    </mat-form-field>
+    <button mat-fab extended>
+      <mat-icon>add</mat-icon>
+      Create
+    </button>
+  </div>
 
-  <table mat-table [dataSource]="_dataSource">
+  <table class="users-table__table" mat-table [dataSource]="_dataSource">
     <!-- Name Column -->
     <ng-container matColumnDef="name">
       <th mat-header-cell *matHeaderCellDef>Name</th>
@@ -33,12 +39,14 @@
     <ng-container matColumnDef="operations">
       <th mat-header-cell *matHeaderCellDef></th>
       <td mat-cell *matCellDef="let element">
-        <button mat-icon-button (click)="_updateUser($event, element)">
-          <mat-icon>create</mat-icon>
-        </button>
-        <button mat-icon-button (click)="_removeUser($event, element.id)">
-          <mat-icon>delete</mat-icon>
-        </button>
+        <div class="users-table__table_operations">
+          <button mat-icon-button (click)="_updateUser($event, element)">
+            <mat-icon>create</mat-icon>
+          </button>
+          <button mat-icon-button (click)="_openDialog($event, element)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
       </td>
     </ng-container>
 
@@ -46,7 +54,6 @@
     <tr
       mat-row
       *matRowDef="let row; columns: _displayedColumns"
-      [class.selected-table-row]="_selectedUserId === row.id"
       (click)="_selectUser(row)"
     ></tr>
 
