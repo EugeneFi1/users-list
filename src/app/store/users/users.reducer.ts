@@ -15,12 +15,10 @@ export const usersReducer = createReducer(
   })),
   on(USERS_API_ACTIONS.createUserSuccess, (state, { user }) => ({
     ...state,
-    selectedUser: user,
     users: [...state.users, user],
   })),
   on(USERS_API_ACTIONS.updateUserSuccess, (state, { user }) => ({
     ...state,
-    selectedUser: user,
     users: state.users.map((stateUser) =>
       stateUser.id === user.id ? user : stateUser
     ),
