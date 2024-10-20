@@ -13,10 +13,6 @@ export const usersReducer = createReducer(
     isLoading: false,
     users: action.users,
   })),
-  on(USERS_ACTIONS.selectUser, (state, action) => ({
-    ...state,
-    selectedUser: action.user,
-  })),
   on(USERS_API_ACTIONS.createUserSuccess, (state, { user }) => ({
     ...state,
     selectedUser: user,

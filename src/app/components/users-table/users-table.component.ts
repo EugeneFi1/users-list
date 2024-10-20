@@ -45,6 +45,8 @@ export class UsersTableComponent implements OnInit {
   constructor(private store: Store, private dialog: MatDialog) {}
 
   public ngOnInit(): void {
+    this.store.dispatch(USERS_ACTIONS.loadUsers());
+
     this.store
       .select(allUsersSelector)
       .pipe(takeUntilDestroyed(this.destroyRef))
@@ -82,7 +84,7 @@ export class UsersTableComponent implements OnInit {
     this._dataSource.filter = filterValue.trim().toLowerCase();
   }
 
-  public _selectUser(user: User): void {
+  public _openUserPosts(user: User): void {
     window.open('users/' + user.id);
   }
 

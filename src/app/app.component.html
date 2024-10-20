@@ -1,8 +1,13 @@
 <div class="app-component">
   <mat-toolbar>
-    <span>Users Lists</span>
+    <div class="app-component__header">
+      <button routerLink="/" mat-icon-button>
+        <mat-icon>home</mat-icon>
+      </button>
+      <div class="app-component__header_title">Users Lists</div>
+    </div>
   </mat-toolbar>
-  <div class="app-component__users-table">
+  <div class="app-component__content">
     <router-outlet></router-outlet>
   </div>
 </div>
