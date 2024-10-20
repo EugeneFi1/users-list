@@ -16,10 +16,11 @@ import {
   DISPLAYED_COLUMNS,
 } from '../../models/users-table.model';
 import { USERS_ACTIONS } from '../../store/users/users.actions';
-import { allUsersSelector } from '../../store/users/users.selectors';
+import { allUsersSelector, isLoadingSelector } from '../../store/users/users.selectors';
 import { ConfirmationDialogComponent } from '../shared/confirmation-dialog/confirmation-dialog.component';
 import { UserFormComponent } from '../user-form/user-form.component';
 import { UserFormDialogData } from '../../models/user-form.mode';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-users-table',
@@ -32,12 +33,14 @@ import { UserFormDialogData } from '../../models/user-form.mode';
     AsyncPipe,
     MatButtonModule,
     MatIconModule,
+    MatProgressSpinnerModule
   ],
   standalone: true,
 })
 export class UsersTableComponent implements OnInit {
   public _displayedColumns: string[] = DISPLAYED_COLUMNS;
   public _dataSource = new MatTableDataSource();
+  public _isLoading$ = this.store.select(isLoadingSelector);
   private confirmationDialogTrigger$ =
     new ReplaySubject<ConfirmationDialogTriggerModel>();
   private destroyRef = inject(DestroyRef);
@@ -46,7 +49,7 @@ export class UsersTableComponent implements OnInit {
 
   public ngOnInit(): void {
     this.store.dispatch(USERS_ACTIONS.loadUsers());
-
+    
     this.store
       .select(allUsersSelector)
       .pipe(takeUntilDestroyed(this.destroyRef))

@@ -18,7 +18,7 @@
 
   &__table {
     cursor: default;
-    
+
     &_operations {
       display: flex;
       justify-content: center;
@@ -29,5 +29,26 @@
     --mat-table-row-item-label-text-color: #005cbb;
     --mat-table-row-item-outline-color: #005cbb;
     --mat-table-row-item-outline-width: 1.5px;
+  }
+
+  &__no-data {
+    display: flex;
+    justify-content: center;
+    line-height: 50px;
+    gap: 5px;
+    font-size: 18px;
+  }
+
+  &__loading {
+    position: absolute;
+    top: 64px;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.1);
+    z-index: 999999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 }

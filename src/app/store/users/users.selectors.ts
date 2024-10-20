@@ -7,3 +7,8 @@ export const allUsersSelector = createSelector(
   selectUsersState,
   (state) => state.users
 );
+
+export const isLoadingSelector = createSelector(
+  selectUsersState,
+  (state) => state.isLoading
+);
