@@ -8,12 +8,18 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { Store } from '@ngrx/store';
+import { map, mergeMap, ReplaySubject } from 'rxjs';
 import { ConfirmationDialogModel } from '../../models/confirmation-dialog.model';
 import { User } from '../../models/user.model';
-import { DISPLAYED_COLUMNS } from '../../models/users-table.model';
+import {
+  ConfirmationDialogTriggerModel,
+  DISPLAYED_COLUMNS,
+} from '../../models/users-table.model';
 import { USERS_ACTIONS } from '../../store/users/users.actions';
 import { allUsersSelector } from '../../store/users/users.selectors';
 import { ConfirmationDialogComponent } from '../shared/confirmation-dialog/confirmation-dialog.component';
+import { UserFormComponent } from '../user-form/user-form.component';
+import { UserFormDialogData } from '../../models/user-form.mode';
 
 @Component({
   selector: 'app-users-table',
@@ -32,6 +38,8 @@ import { ConfirmationDialogComponent } from '../shared/confirmation-dialog/confi
 export class UsersTableComponent implements OnInit {
   public _displayedColumns: string[] = DISPLAYED_COLUMNS;
   public _dataSource = new MatTableDataSource();
+  private confirmationDialogTrigger$ =
+    new ReplaySubject<ConfirmationDialogTriggerModel>();
   private destroyRef = inject(DestroyRef);
 
   constructor(private store: Store, private dialog: MatDialog) {}
@@ -43,6 +51,30 @@ export class UsersTableComponent implements OnInit {
       .subscribe((users) => {
         this._dataSource.data = users;
       });
+
+    this.confirmationDialogTrigger$
+      .pipe(
+        takeUntilDestroyed(this.destroyRef),
+        mergeMap((payload) =>
+          this.dialog
+            .open<unknown, ConfirmationDialogModel>(
+              ConfirmationDialogComponent,
+              {
+                data: {
+                  text: payload.text,
+                },
+              }
+            )
+            .afterClosed()
+            .pipe(
+              map((isConfirmed) => ({
+                isConfirmed,
+                confirmFn: payload.confirmFn,
+              }))
+            )
+        )
+      )
+      .subscribe((result) => result.confirmFn(result.isConfirmed));
   }
 
   public _applyFilter(event: Event) {
@@ -52,27 +84,34 @@ export class UsersTableComponent implements OnInit {
 
   public _selectUser(user: User): void {
     window.open('users/' + user.id);
-    this.store.dispatch(USERS_ACTIONS.selectUser({ user }));
   }
 
-  public _updateUser(event: MouseEvent, user: User): void {
-    event.stopImmediatePropagation();
-    console.log(user);
+  public _openCreateUserDialog(): void {
+    this.openUserFormDialog();
   }
 
-  public _openDialog(event: MouseEvent, user: User): void {
+  public _openUpdateUserDialog(event: MouseEvent, user: User): void {
     event.stopImmediatePropagation();
-    this.dialog
-      .open<unknown, ConfirmationDialogModel>(ConfirmationDialogComponent, {
-        data: {
-          text: `You are about to delete the user 'Name: ${user.name}, Username: ${user.username}'. Do you want to proceed?`,
-        },
-      })
-      .afterClosed()
-      .subscribe((confirmed) => {
-        if (confirmed) {
+    this.openUserFormDialog(user);
+  }
+
+  public _removeUser(event: MouseEvent, user: User): void {
+    event.stopImmediatePropagation();
+    this.confirmationDialogTrigger$.next({
+      text: `You are about to delete the user 'Name: ${user.name}, Username: ${user.username}'. Do you want to proceed?`,
+      confirmFn: (isConfirmed) => {
+        if (isConfirmed) {
           this.store.dispatch(USERS_ACTIONS.deleteUser({ userId: user.id }));
         }
-      });
+      },
+    });
+  }
+
+  private openUserFormDialog(user?: User): void {
+    this.dialog.open<unknown, UserFormDialogData>(UserFormComponent, {
+      data: {
+        user,
+      },
+    });
   }
 }

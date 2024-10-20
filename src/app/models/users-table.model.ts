@@ -5,3 +5,8 @@ export const DISPLAYED_COLUMNS = [
   'website',
   'operations',
 ];
+
+export interface ConfirmationDialogTriggerModel {
+  text?: string;
+  confirmFn: (isConfirmed: boolean) => void;
+}
