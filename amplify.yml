@@ -13,7 +13,7 @@ frontend:
         - ng version
         - ng build --configuration=production
   artifacts:
-    baseDirectory: dist/users-list/browser/users
+    baseDirectory: dist/users-list/browser
     files:
       - '**/*'
   cache:

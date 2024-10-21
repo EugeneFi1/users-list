@@ -4,6 +4,10 @@ import { RouterModule, RouterOutlet } from '@angular/router';
 import { UsersTableComponent } from './components/users-table/users-table.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { Amplify } from 'aws-amplify';
+import outputs from '../../amplify_outputs.json';
+
+Amplify.configure(outputs);
 
 @Component({
   selector: 'app-root',
